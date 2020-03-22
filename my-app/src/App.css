@@ -28,6 +28,18 @@
   color: #61dafb;
 }
 
+.to-do {
+  color: green
+}
+
+.to-do-one {
+  color: yellow
+}
+
+.to-do-two {
+  color:red
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

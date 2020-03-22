@@ -4,7 +4,7 @@ import './App.css';
 
 
 
-function FirstComponent(props) {
+function ListComponent(props) {
   // console.log("This is FirstComp Props****", props.todos)
   return(
     <div>
@@ -14,7 +14,7 @@ function FirstComponent(props) {
       let target = props.todos[index]
       console.log("I'm here", target)
     return <div>
-            <li key={index}>{target}</li>
+            <li className='to-do' key={index} onClick ={() => props.changeStyle()}>{target}</li>
             <button key={target} onClick = { () => props.delete(index)}>delete</button>
           </div>
     })}
@@ -32,6 +32,17 @@ class App extends React.Component {
       todos: []
     }
   }
+  
+  changeStyle = event => {
+    // let color = [...this.state.todos]
+    if(this.state.class === 'to-do') {
+      this.setState({class: 'to-do-one'})
+    } else if(this.state.class === 'to-do-one') {
+      this.setState({class: 'to-do-two'}) 
+    } else {
+      this.setState({class: 'to-do'})
+    }
+  }
   // toggle = () => {
   //   this.setState({isClicked: !this.state.isClicked})
   // }
@@ -44,15 +55,15 @@ class App extends React.Component {
       input: ''
     })
   }
-  inputUpdate = event => {
-    this.setState({input: event.target.value})
+  inputUpdate = text => {
+    this.setState({input: text.target.value})
   }
   
   buttonDelete = (index) => {
     // alert(event.target.attr('data-name'))
     let newData = [...this.state.todos]
     newData.splice(index, 1)
-    console.log(newData, "deleted!")
+    // console.log(newData, "deleted!")
     this.setState({
       todos: newData
     })
@@ -65,9 +76,11 @@ class App extends React.Component {
         <img src={logo} className="App-logo" alt="logo" />
         <form onSubmit= {this.formSubmit}>
           <input value= {this.state.input} onChange={this.inputUpdate} />
-          <button>Click Me!</button>
+          <button>Add Item</button>
         </form>
-        <FirstComponent todos={this.state.todos} delete={this.buttonDelete}/>
+        <div>
+        <ListComponent todos={this.state.todos} delete={this.buttonDelete} style={this.changeStyle}/>
+        </div>
       </header>
     </div>
   );
