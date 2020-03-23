@@ -2,10 +2,13 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-
+// class ListComponent extends React.Component {
+//   const 
+// }
 
 function ListComponent(props) {
   // console.log("This is FirstComp Props****", props.todos)
+
   return(
     <div>
     <h1>To-do list</h1>
@@ -14,7 +17,7 @@ function ListComponent(props) {
       let target = props.todos[index]
       console.log("I'm here", target)
     return <div>
-            <li className='to-do' key={index} onClick ={() => props.changeStyle()}>{target}</li>
+            <li className='to-do' key={index} onClick ={ () => props.changeStyle(target)}>{target}</li>
             <button key={target} onClick = { () => props.delete(index)}>delete</button>
           </div>
     })}
@@ -36,9 +39,9 @@ class App extends React.Component {
   changeStyle = event => {
     // let color = [...this.state.todos]
     if(this.state.class === 'to-do') {
-      this.setState({class: 'to-do-one'})
-    } else if(this.state.class === 'to-do-one') {
-      this.setState({class: 'to-do-two'}) 
+      this.setState({class: 'to-do-yellow'})
+    } else if(this.state.class === 'to-do-yellow') {
+      this.setState({class: 'to-do-red'}) 
     } else {
       this.setState({class: 'to-do'})
     }
@@ -52,7 +55,8 @@ class App extends React.Component {
     // console.log("This is state", this.state.todos)
     this.setState({
       todos: [...this.state.todos, this.state.input],
-      input: ''
+      input: '',
+      class: 'to-do'
     })
   }
   inputUpdate = text => {
@@ -75,11 +79,11 @@ class App extends React.Component {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <form onSubmit= {this.formSubmit}>
-          <input value= {this.state.input} onChange={this.inputUpdate} />
+          <input type ="text" placeholder ="to-do" value= {this.state.input} onChange={this.inputUpdate} />
           <button>Add Item</button>
         </form>
         <div>
-        <ListComponent todos={this.state.todos} delete={this.buttonDelete} style={this.changeStyle}/>
+        <ListComponent todos={this.state.todos} delete={this.buttonDelete} class={this.state.class}/>
         </div>
       </header>
     </div>
