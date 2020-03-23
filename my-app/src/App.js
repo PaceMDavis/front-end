@@ -15,9 +15,9 @@ function ListComponent(props) {
     <ul>
     {props.todos.map((todos, index) => {
       let target = props.todos[index]
-      console.log("I'm here", target)
+      // console.log("I'm here", target)
     return <div>
-            <li className='to-do' key={index} onClick ={ () => props.changeStyle(target)}>{target}</li>
+            <li className={props.class[index]} key={index} onClick ={ () => props.changeStyle(index)}>{target}</li>
             <button key={target} onClick = { () => props.delete(index)}>delete</button>
           </div>
     })}
@@ -32,23 +32,26 @@ class App extends React.Component {
     super(props);
     this.state = {
       input: '',
-      todos: []
+      todos: [],
+      class: []
     }
   }
   
-  changeStyle = event => {
+  changeStyle = (index) => {
     // let color = [...this.state.todos]
-    if(this.state.class === 'to-do') {
-      this.setState({class: 'to-do-yellow'})
-    } else if(this.state.class === 'to-do-yellow') {
-      this.setState({class: 'to-do-red'}) 
+    // console.log("changestyle", this.state)
+    let newClass = this.state.class
+    if(newClass[index] === 'to-do') {
+      newClass[index] = "to-do-yellow"
+      this.setState({class: newClass})
+    } else if(newClass[index] === 'to-do-yellow') {
+      newClass[index] = "to-do-red"
+      this.setState({class: newClass}) 
     } else {
-      this.setState({class: 'to-do'})
+      newClass[index] = "to-do"
+      this.setState({class: newClass})
     }
   }
-  // toggle = () => {
-  //   this.setState({isClicked: !this.state.isClicked})
-  // }
 
   formSubmit = event => {
     event.preventDefault()
@@ -56,7 +59,7 @@ class App extends React.Component {
     this.setState({
       todos: [...this.state.todos, this.state.input],
       input: '',
-      class: 'to-do'
+      class: [...this.state.class, "to-do"]
     })
   }
   inputUpdate = text => {
@@ -65,15 +68,19 @@ class App extends React.Component {
   
   buttonDelete = (index) => {
     // alert(event.target.attr('data-name'))
-    let newData = [...this.state.todos]
+    let newData = [...this.state.todos];
+    let newClass = [...this.state.class]
     newData.splice(index, 1)
+    newClass.splice(index, 1)
     // console.log(newData, "deleted!")
     this.setState({
-      todos: newData
+      todos: newData,
+      class: newClass
     })
   }
   render() {
     // console.log("Hello!!!", this.state.isClicked, this.state.input)
+    console.log(this.state.class)
   return (
     <div className="App">
       <header className="App-header">
@@ -83,7 +90,7 @@ class App extends React.Component {
           <button>Add Item</button>
         </form>
         <div>
-        <ListComponent todos={this.state.todos} delete={this.buttonDelete} class={this.state.class}/>
+        <ListComponent todos={this.state.todos} delete={this.buttonDelete} class={this.state.class} changeStyle={this.changeStyle}/>
         </div>
       </header>
     </div>
