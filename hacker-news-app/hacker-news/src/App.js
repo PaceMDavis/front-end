@@ -19,7 +19,7 @@ function ListComponent(props) {
         <ul>
           {props.query.map((result, index) => {
             // let story = props.result[index]
-            console.log("wowza", result)
+            // console.log("wowza", result)
           return (
             <div>
               <li key={index}>{`${result.title} - ${result.author}`}</li>

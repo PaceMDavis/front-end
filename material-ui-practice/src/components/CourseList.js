@@ -43,6 +43,7 @@ class CourseList extends Component {
     } else {
       this.setState({searchString: ''})
     }
+    console.log(this.courses)
     this.getCourses()
   }
   render() {
